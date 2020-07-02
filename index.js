@@ -32,13 +32,13 @@ searchForm.addEventListener('submit', e => {
       <div class="card mb-2">
       <img class="card-img-top" src="${image}" alt="Card image cap">
       <div class="card-body">
-        <h5 class="card-title">${post.title}</h5>
-        <p class="card-text">${truncateString(post.selftext, 100)}</p>
+        <h5 class="card-title"><b>${post.title}</b></h5>
+        <p class="card-text">${truncateString(post.selftext, 80)}</p>
         <a href="${post.url}" target="_blank
-        " class="btn btn-primary">Read More</a>
+        " class="btn btn-dark">Read More</a>
         <hr>
-        <span class="badge badge-secondary">Subreddit: ${post.subreddit}</span> 
-        <span class="badge badge-dark">Score: ${post.score}</span>
+        <span class="badge badge-success"><b>Subreddit</b>: ${post.subreddit}</span> 
+        <span class="badge badge-warning"><b>Score</b>: ${post.score}</span>
       </div>
     </div>
       `;
