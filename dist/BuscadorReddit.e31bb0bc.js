@@ -117,45 +117,94 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"index.js":[function(require,module,exports) {
+})({"redditapi.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  search: function search(searchTerm, searchLimit, sortBy) {
+    return fetch("http://www.reddit.com/search.json?q=".concat(searchTerm, "&sort=").concat(sortBy, "&limit=").concat(searchLimit)).then(function (res) {
+      return res.json();
+    }).then(function (data) {
+      return data.data.children.map(function (data) {
+        return data.data;
+      });
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  }
+};
+exports.default = _default;
+},{}],"index.js":[function(require,module,exports) {
+"use strict";
+
+var _redditapi = _interopRequireDefault(require("./redditapi"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var searchForm = document.getElementById('search-form');
-var searchInput = document.getElementById('search-input'); //Search Form Reddit Posts 
-
+var searchBtn = document.getElementById('search-btn');
+var searchInput = document.getElementById('search-input');
 searchForm.addEventListener('submit', function (e) {
-  // Get search term
-  var searchTerm = searchInput.value; // Get sort
-
+  // Get sort
   var sortBy = document.querySelector('input[name="sortby"]:checked').value; // Get limit
 
-  var searchLimit = document.getElementById('limit').value; // Check if the input is empty and show a message
+  var searchLimit = document.getElementById('limit').value; // Get search
+
+  var searchTerm = searchInput.value; // Check for input
 
   if (searchTerm == '') {
     // Show message
     showMessage('Please add a search term', 'alert-danger');
-  }
+  } // Clear field
+
+
+  searchInput.value = ''; // Search Reddit
+
+  _redditapi.default.search(searchTerm, searchLimit, sortBy).then(function (results) {
+    var output = '<div class="card-columns">';
+    console.log(results);
+    results.forEach(function (post) {
+      // Check for image
+      var image = post.preview ? post.preview.images[0].source.url : 'https://cdn.comparitech.com/wp-content/uploads/2017/08/reddit-1.jpg';
+      output += "\n      <div class=\"card mb-2\">\n      <img class=\"card-img-top\" src=\"".concat(image, "\" alt=\"Card image cap\">\n      <div class=\"card-body\">\n        <h5 class=\"card-title\">").concat(post.title, "</h5>\n        <p class=\"card-text\">").concat(truncateString(post.selftext, 100), "</p>\n        <a href=\"").concat(post.url, "\" target=\"_blank\n        \" class=\"btn btn-primary\">Read More</a>\n        <hr>\n        <span class=\"badge badge-secondary\">Subreddit: ").concat(post.subreddit, "</span> \n        <span class=\"badge badge-dark\">Score: ").concat(post.score, "</span>\n      </div>\n    </div>\n      ");
+    });
+    output += '</div>';
+    document.getElementById('results').innerHTML = output;
+  });
 
   e.preventDefault();
-});
+}); // Show Message Function
 
 function showMessage(message, className) {
-  //Create div
-  var div = document.createElement('div'); //Add classes with template literals `` 
+  // Create div
+  var div = document.createElement('div'); // Add classes
 
-  div.className = "alert ".concat(className); //Add text message
+  div.className = "alert ".concat(className); // Add text
 
   div.appendChild(document.createTextNode(message)); // Get parent
 
-  var searchContainer = document.getElementById('search-container'); // Get search
+  var searchContainer = document.getElementById('search-container'); // Get form
 
-  var search = document.getElementById('search'); // Insert message
+  var search = document.getElementById('search'); // Insert alert
 
-  searchContainer.insertBefore(div, search); //Timeout alert
+  searchContainer.insertBefore(div, search); // Timeout after 3 sec
 
   setTimeout(function () {
-    return document.querySelector('.alert').remove();
+    document.querySelector('.alert').remove();
   }, 3000);
+} // Truncate String Function
+
+
+function truncateString(myString, limit) {
+  var shortened = myString.indexOf(' ', limit);
+  if (shortened == -1) return myString;
+  return myString.substring(0, shortened);
 }
-},{}],"C:/Users/oriol/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./redditapi":"redditapi.js"}],"C:/Users/oriol/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
