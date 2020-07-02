@@ -118,7 +118,43 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"index.js":[function(require,module,exports) {
+var searchForm = document.getElementById('search-form');
+var searchInput = document.getElementById('search-input'); //Search Form Reddit Posts 
 
+searchForm.addEventListener('submit', function (e) {
+  // Get search term
+  var searchTerm = searchInput.value; // Get sort
+
+  var sortBy = document.querySelector('input[name="sortby"]:checked').value; // Get limit
+
+  var searchLimit = document.getElementById('limit').value; // Check if the input is empty and show a message
+
+  if (searchTerm == '') {
+    // Show message
+    showMessage('Please add a search term', 'alert-danger');
+  }
+
+  e.preventDefault();
+});
+
+function showMessage(message, className) {
+  //Create div
+  var div = document.createElement('div'); //Add classes with template literals `` 
+
+  div.className = "alert ".concat(className); //Add text message
+
+  div.appendChild(document.createTextNode(message)); // Get parent
+
+  var searchContainer = document.getElementById('search-container'); // Get search
+
+  var search = document.getElementById('search'); // Insert message
+
+  searchContainer.insertBefore(div, search); //Timeout alert
+
+  setTimeout(function () {
+    return document.querySelector('.alert').remove();
+  }, 3000);
+}
 },{}],"C:/Users/oriol/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
