@@ -1,0 +1,19 @@
+{
+  "name": "buscadorreddit",
+  "version": "1.0.0",
+  "description": "App para buscar posts en reddit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OriolLlovera/BuscadorReddit.git"
+  },
+  "author": "Oriol Llovera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OriolLlovera/BuscadorReddit/issues"
+  },
+  "homepage": "https://github.com/OriolLlovera/BuscadorReddit#readme"
+}
